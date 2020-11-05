@@ -1,13 +1,14 @@
 "use stric";
-const newYear = "12 Feb 2021";
-const newYearDate = new Date(newYear);
+document.addEventListener('DOMContentLoaded', function(){ 
+  const newYear = "12 Feb 2021";
+  const newYearDate = new Date(newYear);
 
-const dayElem = document.querySelector('#day p');
-const hourElem = document.querySelector('#hour p');
-const minuteElem = document.querySelector('#minute p');
-const secondElem = document.querySelector('#second p');
+  const dayElem = document.querySelector('#day p');
+  const hourElem = document.querySelector('#hour p');
+  const minuteElem = document.querySelector('#minute p');
+  const secondElem = document.querySelector('#second p');
+  let firstLoad = true;
 
-window.onload = function () {
   function countDown() {
     const currentDate = new Date();
     const timeGap = (newYearDate - currentDate) / 1000;
@@ -16,16 +17,36 @@ window.onload = function () {
     const hoursCountDown = Math.floor(timeGap / 3600) % 24;
     const minutesCountDown = Math.floor(timeGap / 60) % 60;
     const secondsCountDown = Math.floor(timeGap % 60);
-
-    dayElem.innerHTML = formatTime(daysCountDown);
-    hourElem.innerHTML = formatTime(hoursCountDown);
-    minuteElem.innerHTML = formatTime(minutesCountDown);
-    secondElem.innerHTML = formatTime(secondsCountDown);
+    if(firstLoad) {
+      animationValue(dayElem, 00, formatTime(daysCountDown), 600);
+      animationValue(hourElem, 00, formatTime(hoursCountDown), 600);
+      animationValue(minuteElem, 00, formatTime(minutesCountDown), 600);
+      animationValue(secondElem, 00, formatTime(secondsCountDown), 600);
+      firstLoad = false;
+    } else {
+      dayElem.innerHTML = formatTime(daysCountDown);
+      hourElem.innerHTML = formatTime(hoursCountDown);
+      minuteElem.innerHTML = formatTime(minutesCountDown);
+      secondElem.innerHTML = formatTime(secondsCountDown);
+    }
   }
-
   function formatTime(time) {
     return time < 10 ? `0${time}` : time;
   };
-
   setInterval(countDown, 1000);
-};
+
+  function animationValue( elem, start, end, duration) {
+      const range = end - start;
+      let current = start;
+      const increment = end > start? 1 : -1;
+      const stepTime = Math.abs(Math.floor(duration / range));
+      const timer = setInterval(function() {
+          current += increment;
+          elem.innerHTML = current;
+          if (current == end) {
+              clearInterval(timer);
+          }
+      }, stepTime);
+  };
+}, false);
+
