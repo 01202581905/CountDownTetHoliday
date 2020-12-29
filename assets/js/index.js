@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const minutesCountDown = Math.floor(timeGap / 60) % 60;
     const secondsCountDown = Math.floor(timeGap % 60);
     if(firstLoad) {
-      animationValue(dayElem, 00, formatTime(daysCountDown), 600);
-      animationValue(hourElem, 00, formatTime(hoursCountDown), 600);
-      animationValue(minuteElem, 00, formatTime(minutesCountDown), 600);
-      animationValue(secondElem, 00, formatTime(secondsCountDown), 600);
+      animationValue(dayElem, 0, formatTime(daysCountDown), 1000);
+      animationValue(hourElem, 0, formatTime(hoursCountDown), 1000);
+      animationValue(minuteElem, 0, formatTime(minutesCountDown), 1000);
+      animationValue(secondElem, 0, formatTime(secondsCountDown), 1000);
       firstLoad = false;
     } else {
       dayElem.innerHTML = formatTime(daysCountDown);
@@ -39,14 +39,17 @@ document.addEventListener('DOMContentLoaded', function(){
       const range = end - start;
       let current = start;
       const increment = end > start? 1 : -1;
-      const stepTime = Math.abs(Math.floor(duration / range));
-      const timer = setInterval(function() {
+      let stepTime = Math.abs(Math.floor(duration / range));
+      if(range !== 0) {
+        const timer = setInterval(function() {
           current += increment;
           elem.innerHTML = current;
           if (current == end) {
               clearInterval(timer);
           }
       }, stepTime);
+      }
+      
   };
 }, false);
 

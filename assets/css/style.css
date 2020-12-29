@@ -42,6 +42,7 @@ body .container__body-time .timecd {
 }
 body .container__body-time .timecd p {
   font-size: 64px;
+  min-width: 80px;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   margin: 0;
